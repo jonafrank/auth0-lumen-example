@@ -19,7 +19,15 @@ $app->get('/', function () use ($app) {
 $app->get('/secure-route', ['middleware' => 'auth0', function() use ($app) {
     dump(Auth::user());
 }]);
+$app->get('/auth0/callback', 'Auth0Controller@callback');
 
+$app->get('/api-secure', ['middleware'=> 'auth0.jwt', function() use ($app) {
+    dump(Auth::user());
+}]);
+$app->get('/logout', function() use ($app) {
+    $app['auth0']->logout();
+    return redirect('/');
+});
 $app->get('/ping', function() use ($app) {
     return 'pong';
 });

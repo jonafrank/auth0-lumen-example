@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         function() {
             static $cacheWrapper = null;
             if ($cacheWrapper === null) {
-                $cache = Cache::store();
+                $cache = \Cache::store();
                 $cacheWrapper = new LumenCacheWrapper($cache);
             }
             return $cacheWrapper;

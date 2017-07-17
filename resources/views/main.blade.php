@@ -7,11 +7,24 @@
                     redirectUrl: 'http://local.auth0.com/auth0/callback',
                     responseType: 'code',
                     params: {
-                        scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+                        scope: 'openid' // Learn about scopes: https://auth0.com/docs/scopes
                     }
                 }
             });
-            </script>
+            lock.on("authenticated", function(authResult) {
+                // Use the token in authResult to getUserInfo() and save it to localStorage
+                lock.getUserInfo(authResult.accessToken, function(error, profile) {
+                    if (error) {
+                        console.log(error);
+                        // Handle error
+                        return;
+                    }
+
+                    localStorage.setItem('accessToken', authResult.accessToken);
+                    localStorage.setItem('profile', JSON.stringify(profile));
+                });
+            })
+        </script>
     </head>
     <body>
         <button onclick="lock.show();">Login</button>
